@@ -64,9 +64,12 @@ public class PlayerController : MonoBehaviour
         PlayerController.player = playerCharcterScript;
         SetAsPlayer(ref player);
 
+        AttackAction = abilitySets[0].Attack;
         Ability1Action = abilitySets[0].Ability1;
         Ability2Action = abilitySets[0].Ability2;
         AbilityPassiveAction = abilitySets[0].AbilityPassive;
+        ability1Cooldown = abilitySets[0].Ability1Cooldown;
+        ability2Cooldown = abilitySets[0].Ability2Cooldown;
         passiveChance = abilitySets[0].PassiveChance;
     }
 
@@ -193,6 +196,8 @@ public class PlayerController : MonoBehaviour
     {
         if (AttackAction!=null)
             AttackAction();
+        else
+            Debug.Log("Attack Action Null!");
     }
 
     // calls the first ability

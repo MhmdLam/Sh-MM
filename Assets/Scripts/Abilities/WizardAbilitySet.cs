@@ -25,7 +25,7 @@ public class WizardAbilitySet : IAbilitySet
     public static Bullet lastBullet;
 
 
-        public void Attack()
+        public void Attack() // Fireball
     {
         Transform firePoint = PlayerController.player.transform.GetChild(0);
         Bullet bullet = PoolsManager.Instance.Get(0, out bool newObjectInstantiated).GetComponent<Bullet>();
