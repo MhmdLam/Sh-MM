@@ -14,6 +14,11 @@ public class GolemAbilitySet : IAbilitySet
     private bool passiveSuccessful = false;
     public bool PassiveSuccessful {get{return passiveSuccessful;} set{passiveSuccessful=value;}}
 
+    private float ability1Cooldown = 1f;
+    public float Ability1Cooldown {get{return ability1Cooldown;} set{ability1Cooldown=value;}}
+    private float ability2Cooldown = 1f;
+    public float Ability2Cooldown {get{return ability2Cooldown;} set{ability2Cooldown=value;}}
+
     private void AreaAttack(float maindamage)
     {
         Collider[] hits = Physics.OverlapSphere(PlayerController.player.transform.position,raduis);
@@ -29,6 +34,11 @@ public class GolemAbilitySet : IAbilitySet
     {
 
     }
+
+    public void Attack()
+    {
+        //throw new System.NotImplementedException();
+    }
     public void Ability1(){
         Debug.Log("Golem Ability 1");
         AreaAttack(mdamage);
@@ -39,4 +49,6 @@ public class GolemAbilitySet : IAbilitySet
     }
 
     public void AbilityPassive() {}
+
+    
 }

@@ -7,6 +7,8 @@ using CodeMonkey.Utils;
 [RequireComponent(typeof(InputManager))]
 public class PlayerController : MonoBehaviour
 {
+
+    public static PlayerController Instance {get; private set;}
     public string playerTag = "Player";
     public string enemyTag = "Enemy";
     [HideInInspector] public InputManager inputManager;
@@ -30,9 +32,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 playerLastDir = Vector2.up;
     private Vector2 playerDir;
 
+    private Action AttackAction;
     private Action Ability1Action;
     private Action Ability2Action;
     public static Action AbilityPassiveAction;
+    public static float ability1Cooldown;
+    public static float ability2Cooldown;
     public static float passiveChance;
 
     private BulletShooter bulletShooter;
@@ -43,6 +48,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         bulletShooter = GetComponent<BulletShooter>();
         SplashPrefab = splashPrefab;
     }
@@ -159,22 +165,16 @@ public class PlayerController : MonoBehaviour
         {
             currentPlayerType = character.characterType;
             Debug.Log("changed types:"+currentPlayerType.ToString());
+            AttackAction = abilitySets[(int)currentPlayerType].Attack;
             Ability1Action = abilitySets[(int)currentPlayerType].Ability1;
             Ability2Action = abilitySets[(int)currentPlayerType].Ability2;
             AbilityPassiveAction = abilitySets[(int)currentPlayerType].AbilityPassive;
-            passiveChance = abilitySets[(int)currentPlayerType].PassiveChance;
 
-            if (currentPlayerType==CharacterType.Wizard)
-            {
-                //bulletShooter.canShoot = true;
-                bulletShooter.AttackAction = bulletShooter.Shoot;
-            }
-            else
-            {
-                //bulletShooter.canShoot = false;
-                bulletShooter.AttackAction = bulletShooter.Melee;
-            }
+            ability1Cooldown = abilitySets[(int)currentPlayerType].Ability1Cooldown;
+            ability2Cooldown = abilitySets[(int)currentPlayerType].Ability2Cooldown;
+            passiveChance = abilitySets[(int)currentPlayerType].PassiveChance;
         }
+        
         player.transform.tag = "Player";
     }
 
@@ -188,6 +188,12 @@ public class PlayerController : MonoBehaviour
     //[Header("Abilities")]
     private List<IAbilitySet> abilitySets = new List<IAbilitySet>();
     
+    // calls the first ability
+    public void Attack()
+    {
+        if (AttackAction!=null)
+            AttackAction();
+    }
 
     // calls the first ability
     public void Ability1()

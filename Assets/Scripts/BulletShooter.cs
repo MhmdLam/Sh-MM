@@ -12,46 +12,24 @@ public class BulletShooter : MonoBehaviour
     //public PlayerController pl;
     float time1, TimeFire;
 
-    public Action AttackAction;
-
     public static Bullet lastBullet;
     void Start()
     {
-        AttackAction = Shoot;
         time1 = 0f;
         TimeFire = 1f;
     }
 
     void Update()
     {
-        // if (canShoot)
-        // {
-            time1 += Time.deltaTime;
-            if (time1 > TimeFire)
+        time1 += Time.deltaTime;
+        if (time1 > TimeFire)
+        {
+            time1 = 0f;
+            PlayerController.Instance.Attack();
+            if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.passiveChance)
             {
-                time1 = 0f;
-                AttackAction();
-                if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.passiveChance)
-                {
-                    PlayerController.AbilityPassiveAction();
-                }
+                PlayerController.AbilityPassiveAction();
             }
-        // }
-    }
-    public void Shoot()
-    {
-        Transform firePoint = PlayerController.player.transform.GetChild(0);
-        Bullet bullet = PoolsManager.Instance.Get(0, out bool newObjectInstantiated).GetComponent<Bullet>();
-        bullet.gameObject.SetActive(true);
-        bullet.transform.position = firePoint.position;
-        bullet.transform.rotation = firePoint.rotation;
-        bullet.transform.SetParent(parentTransform);
-        
-        lastBullet = bullet;
-    }
-
-    public void Melee()
-    {
-        Debug.Log("Melee Attack!");
+        }
     }
 }
