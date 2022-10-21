@@ -17,6 +17,7 @@ public class Character : MonoBehaviour, IPoolable
     public bool isFrozen = false;
     private float frozenTimeLeft = 0f;
     public float attackRange = 1f;
+    public float attackRangeSecondary = 1.3f;
     public float bodyRadius = 0.2f;
     public float baseMoveSpeed = 1f;
     public float currentMoveSpeed;
@@ -25,6 +26,8 @@ public class Character : MonoBehaviour, IPoolable
     public HealthBar healthBar;
     private Rigidbody _rigidbody;
     public Animator animator;
+
+    [HideInInspector] public bool attackCanceled = false; // becomes true when attack is canceled(e.g when stunned)
 
     private IAttack attackScript; // a component with all the attack logic
 
@@ -95,6 +98,7 @@ public class Character : MonoBehaviour, IPoolable
     {
         if (!isPlayer)
         {
+            attackCanceled = false;
             attackScript.AttackAsEnemy();
         }
     }
@@ -111,6 +115,7 @@ public class Character : MonoBehaviour, IPoolable
     // stuns the character for the given duration
     public void ApplyStun(float duration)
     {
+        attackCanceled = true;
         isStunned = true;
         stunTimeLeft = duration;
     }
@@ -124,6 +129,7 @@ public class Character : MonoBehaviour, IPoolable
     // freezes the character for the given duration
     public void ApplyFreeze(float duration)
     {
+        attackCanceled = true;
         isFrozen = true;
         frozenTimeLeft = duration;
     }

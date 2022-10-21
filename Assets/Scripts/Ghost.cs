@@ -11,7 +11,6 @@ public class Ghost : MonoBehaviour
     
     void Update()
     {
-        Debug.Log(slider);
         transform.position = Vector3.Lerp(startPos, targetPos, slider);
         //slider += Time.deltaTime*speed;
     }

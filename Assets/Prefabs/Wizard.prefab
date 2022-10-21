@@ -1407,6 +1407,8 @@ MonoBehaviour:
   isStunned: 0
   isFrozen: 0
   attackRange: 1
+  attackRangeSecondary: 1.3
+  bodyRadius: 0.2
   baseMoveSpeed: 0.8
   currentMoveSpeed: 0
   maxHealth: 10
@@ -1457,7 +1459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackSpeed: 1
   damageAmount: 1
-  attackTime: 1
+  attackTime: 0.6
 --- !u!1 &8486042521066328869
 GameObject:
   m_ObjectHideFlags: 0
