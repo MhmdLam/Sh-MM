@@ -173,6 +173,7 @@ MonoBehaviour:
   isStunned: 0
   isFrozen: 0
   attackRange: 2
+  bodyRadius: 0.9
   baseMoveSpeed: 0.5
   currentMoveSpeed: 0
   maxHealth: 30

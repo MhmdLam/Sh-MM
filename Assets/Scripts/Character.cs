@@ -17,6 +17,7 @@ public class Character : MonoBehaviour, IPoolable
     public bool isFrozen = false;
     private float frozenTimeLeft = 0f;
     public float attackRange = 1f;
+    public float bodyRadius = 0.2f;
     public float baseMoveSpeed = 1f;
     public float currentMoveSpeed;
     [SerializeField] private float maxHealth = 10f;
