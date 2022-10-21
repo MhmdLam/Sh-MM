@@ -75,11 +75,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (currentlyChangingBodies)
-        {
-            // Debug.Log(ghost.transform.position);
-            ghost.transform.position = Vector3.Lerp(ghost.transform.position, playerIndicator.transform.position, Time.deltaTime*bodyChangeSpeed*bodyChangeDistance);
-        }
+        // if (currentlyChangingBodies)
+        // {
+        //     // Debug.Log(ghost.transform.position);
+        //     ghost.transform.position = Vector3.Lerp(ghost.transform.position, playerIndicator.transform.position, Time.deltaTime*bodyChangeSpeed*bodyChangeDistance);
+        // }
     }
 
     // called by the MainController to calculate the player direction
@@ -145,12 +145,13 @@ public class PlayerController : MonoBehaviour
 
         ghost.SetActive(true);
         // Debug.Log(ghost.transform.position);
-        ghost.transform.position = playerIndicator.transform.position;
-        ghost.transform.LookAt(character.transform.position);
+        // ghost.transform.position = playerIndicator.transform.position;
+        // ghost.transform.LookAt(character.transform.position);
+        ghost.GetComponent<Ghost>().StartAnimation(player.transform.position, character.transform.position);
         SimpleCameraFollow.Instance.smoothMovement = true;
         Time.timeScale = bodyChangeTimeScale;
-        bodyChangeDistance = Vector3.Distance(ghost.transform.position, character.transform.position);
-        bodyChangeDistance = (float) Math.Sqrt(bodyChangeDistance);
+        // bodyChangeDistance = Vector3.Distance(ghost.transform.position, character.transform.position);
+        // bodyChangeDistance = (float) Math.Sqrt(bodyChangeDistance);
         FunctionTimer.Create(
                             () => {
                                 // Debug.Log("body change successful");

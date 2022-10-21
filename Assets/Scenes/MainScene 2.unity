@@ -1861,6 +1861,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 658237502}
+  - component: {fileID: 658237504}
+  - component: {fileID: 658237503}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -1887,6 +1889,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &658237503
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658237501}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 28d4817d2c2f0554eaab0fafac6016b6, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 28d4817d2c2f0554eaab0fafac6016b6, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &658237504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658237501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f3282d5ab9e8841b61afc6b146d45b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: 0
+  sliderAnimation: {fileID: 658237503}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
