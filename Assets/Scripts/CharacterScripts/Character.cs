@@ -17,9 +17,12 @@ public class Character : MonoBehaviour, IPoolable
     // ****Health****
     [Header("****Health****")]
     public HealthBar healthBar;
-    [SerializeField] private float maxHealth = 10f; // remember the float right below shold always be equal to this
+    [SerializeField] private float maxHealth = 10f;
     
-    [ProgressBar("Health", 10f, EColor.Green)]
+    [ProgressBar("Health", 1f, EColor.Green)]
+    [SerializeField]
+    private float hPRatio = 0f;
+
     [SerializeField]
     private float health;
 
@@ -41,7 +44,7 @@ public class Character : MonoBehaviour, IPoolable
     [Header("****Movement****")]
     public float baseMoveSpeed = 1f;
     [HideInInspector] public Vector2 moveDirection = Vector2.up;
-    [HideInInspector] public float currentMoveSpeed;
+    [ReadOnly] public float currentMoveSpeed;
 
     
 
@@ -176,6 +179,7 @@ public class Character : MonoBehaviour, IPoolable
     // updates this characters health bar
     public void UpdateHealthBar()
     {
+        hPRatio = health/maxHealth;
         healthBar.UpdateBar(health/maxHealth);
     }
 
