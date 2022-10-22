@@ -194,5 +194,6 @@ public enum CharacterType
 {
     Wizard,
     Golem,
-    Ogre
+    Ogre,
+    None
 };

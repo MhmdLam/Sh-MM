@@ -50,7 +50,7 @@ public class OgreAbilitySet : IAbilitySet
 
     private void SplashDamage()
     {
-        GameObject Area = GameObject.Instantiate(PlayerController.SplashPrefab, PlayerController.player.transform.position, PlayerController.player.transform.rotation);
+        GameObject Area = GameObject.Instantiate(PlayerController.Instance.splashPrefab, PlayerController.player.transform.position, PlayerController.player.transform.rotation);
         //Area.transform.position += transform.forward * SplashSpeed * Time.deltaTime;
         Rigidbody rigidbody = Area.GetComponent<Rigidbody>();
         rigidbody.AddForce(PlayerController.player.transform.forward*splashSpeed,ForceMode.Impulse);

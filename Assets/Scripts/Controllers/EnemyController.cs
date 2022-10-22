@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class EnemyController : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class EnemyController : MonoBehaviour
     public List<Character> characters;
     [SerializeField] private float enemyTurnSpeed = 5f;
 
-    public int groupsCount = 3;
+    [Label("Calculation Groups Count")] public int groupsCount = 3;
     private int groupsI = 0;
 
 

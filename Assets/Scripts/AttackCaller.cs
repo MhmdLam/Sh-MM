@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletShooter : MonoBehaviour
+public class AttackCaller : MonoBehaviour
 {
     public float speed;
     public bool canShoot = true;
@@ -26,9 +26,9 @@ public class BulletShooter : MonoBehaviour
         {
             time1 = 0f;
             PlayerController.Instance.Attack();
-            if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.passiveChance)
+            if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.Instance.passiveChance)
             {
-                PlayerController.AbilityPassiveAction();
+                PlayerController.Instance.Passive();
             }
         }
     }
