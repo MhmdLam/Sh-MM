@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
 
-[RequireComponent(typeof(InputManager))]
 public class PlayerController : MonoBehaviour
 {
 
