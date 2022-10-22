@@ -2272,16 +2272,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTag: Player
   enemyTag: Enemy
-  inputManager: {fileID: 0}
-  moveSpeedMult: 1.7
-  healthBarSizeMult: 1.2
   playerCharcterScript: {fileID: 5432898286430085473}
+  inputManager: {fileID: 0}
   playerIndicator: {fileID: 1327056327}
   ghost: {fileID: 658237501}
-  bodyChangeSpeed: 2.5
+  splashPrefab: {fileID: 6819319973631523998, guid: c60f69bcbe1a8064ea09d51fdd025b7e, type: 3}
   bodyChangeTime: 0.4
   bodyChangeTimeScale: 0.3
-  splashPrefab: {fileID: 6819319973631523998, guid: c60f69bcbe1a8064ea09d51fdd025b7e, type: 3}
+  currentPlayerType: 0
+  ability1Cooldown: 0
+  ability2Cooldown: 0
+  passiveChance: 0
+  invincibleTime: 2
+  isInvincible: 0
+  moveSpeedMult: 1.7
+  healthBarSizeMult: 1.2
 --- !u!4 &823636629
 Transform:
   m_ObjectHideFlags: 0
