@@ -1359,9 +1359,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8145033020534422746}
   - component: {fileID: 8145033020534422745}
+  - component: {fileID: 3076743491925655259}
   - component: {fileID: 849588358904042970}
   - component: {fileID: 4431137170497117371}
-  - component: {fileID: 3076743491925655259}
   m_Layer: 0
   m_Name: Wizard
   m_TagString: Enemy
@@ -1399,22 +1399,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867f2cb533f358b4a9eb8c116b26ebbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDirection: {x: 0, y: 1}
   poolingID: 1
   isPlayer: 0
   characterType: 0
-  isAttacking: 0
-  isStunned: 0
-  isFrozen: 0
+  healthBar: {fileID: 3446166313648971743}
+  maxHealth: 10
+  health: 0
   attackRange: 1
   attackRangeSecondary: 1.3
   bodyRadius: 0.2
+  isAttacking: 0
+  isStunned: 0
+  isFrozen: 0
+  attackCanceled: 0
   baseMoveSpeed: 0.8
+  moveDirection: {x: 0, y: 1}
   currentMoveSpeed: 0
-  maxHealth: 10
-  health: 0
-  healthBar: {fileID: 3446166313648971743}
   animator: {fileID: 3102271975616694800}
+--- !u!114 &3076743491925655259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8145033020534422750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d28b9ef9b5ff3b43b7b26a664278c0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackSpeed: 1
+  damageAmount: 1
+  attackTime: 0.6
 --- !u!54 &849588358904042970
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1445,21 +1461,6 @@ CapsuleCollider:
   m_Height: 0.97987795
   m_Direction: 1
   m_Center: {x: 0, y: 0.49672818, z: -0.025440514}
---- !u!114 &3076743491925655259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8145033020534422750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d28b9ef9b5ff3b43b7b26a664278c0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackSpeed: 1
-  damageAmount: 1
-  attackTime: 0.6
 --- !u!1 &8486042521066328869
 GameObject:
   m_ObjectHideFlags: 0

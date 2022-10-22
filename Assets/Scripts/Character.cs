@@ -2,45 +2,65 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
+using NaughtyAttributes;
 
 public class Character : MonoBehaviour, IPoolable
 {
-    [HideInInspector] public Vector2 moveDirection = Vector2.up;
+    // ****ID****
+    [Header("****ID****")]
     [SerializeField] private int poolingID;
-    public int PoolingID{ get; set;}
+    public int PoolingID{ get{return poolingID;} set{poolingID=value;}}
     public GameObject ThisGameObject{get{return gameObject;}}
     public bool isPlayer = false;
     public CharacterType characterType = CharacterType.Wizard;
-    public bool isAttacking = false;
-    public bool isStunned = false;
-    private float stunTimeLeft = 0f;
-    public bool isFrozen = false;
-    private float frozenTimeLeft = 0f;
+
+    // ****Health****
+    [Header("****Health****")]
+    public HealthBar healthBar;
+    [SerializeField] private float maxHealth = 10f; // remember the float right below shold always be equal to this
+    
+    [ProgressBar("Health", 10f, EColor.Green)]
+    [SerializeField]
+    private float health;
+
+    // ****Attack****
+    [Header("****Attack****")]
     public float attackRange = 1f;
     public float attackRangeSecondary = 1.3f;
     public float bodyRadius = 0.2f;
-    public float baseMoveSpeed = 1f;
-    public float currentMoveSpeed;
-    [SerializeField] private float maxHealth = 10f;
-    [SerializeField] private float health;
-    public HealthBar healthBar;
-    private Rigidbody _rigidbody;
-    public Animator animator;
-
+    private float stunTimeLeft = 0f;
+    [HideInInspector] public bool isAttacking = false;
+    [HideInInspector] public bool isStunned = false;
+    [HideInInspector] public bool isFrozen = false;
+    private float frozenTimeLeft = 0f;
     [HideInInspector] public bool attackCanceled = false; // becomes true when attack is canceled(e.g when stunned)
 
     private IAttack attackScript; // a component with all the attack logic
 
+    // ****Movement****
+    [Header("****Movement****")]
+    public float baseMoveSpeed = 1f;
+    [HideInInspector] public Vector2 moveDirection = Vector2.up;
+    [HideInInspector] public float currentMoveSpeed;
+
+    
+
+    // ****Other****
+    [Header("****Other****")]
+    public Animator animator;
+    private Rigidbody _rigidbody;
+
+    
+
     private void Awake()
     {
+        // assign references
         _rigidbody = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>(true);
         attackScript = GetComponent<IAttack>();
         attackScript.Character = (Character) this;
 
         healthBar.ResetComponents();
-
-        PoolingID = poolingID;
     }
 
     private void OnEnable()
@@ -50,7 +70,7 @@ public class Character : MonoBehaviour, IPoolable
         UpdateHealthBar();
     }
 
-    // reassigns components
+    // reassigns all references
     public void ResetComponents()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -66,7 +86,7 @@ public class Character : MonoBehaviour, IPoolable
 
     private void Update()
     {
-        if (!(isStunned||isFrozen))
+        if (!(isStunned||isFrozen)) // move and rotate if possible
         {
             if (!isAttacking)
             {
@@ -76,7 +96,7 @@ public class Character : MonoBehaviour, IPoolable
             // rotate the character
             _rigidbody.MoveRotation(Quaternion.Euler(0f, Mathf.Atan2(moveDirection.x, moveDirection.y)*Mathf.Rad2Deg, 0f));
         }
-        else
+        else // check if stun/freeze time ended
         {
             if (isStunned)
             {
@@ -93,7 +113,7 @@ public class Character : MonoBehaviour, IPoolable
         }
     }
 
-    // based on isPlayer calls an attack function
+    // attack function called by the EnemyController
     public void Attack()
     {
         if (!isPlayer)
@@ -103,7 +123,7 @@ public class Character : MonoBehaviour, IPoolable
         }
     }
 
-    // called by the bullets to damage this character
+    // applies some damage to this character
     public void ApplyDamage(float damageAmount)
     {
         health -= damageAmount;
@@ -169,6 +189,7 @@ public class Character : MonoBehaviour, IPoolable
 }
 
 
+// represents a character type (wizard, ogre, ...)
 public enum CharacterType
 {
     Wizard,

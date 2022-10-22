@@ -73,11 +73,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5856417199395203576}
+  - component: {fileID: 95380086487483361}
+  - component: {fileID: 95380086487483362}
   - component: {fileID: 5772311347393521458}
   - component: {fileID: 2732069292822646471}
   - component: {fileID: 8200972695511562093}
-  - component: {fileID: 95380086487483361}
-  - component: {fileID: 95380086487483362}
   m_Layer: 0
   m_Name: Golem
   m_TagString: Enemy
@@ -103,6 +103,50 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &95380086487483361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5857580564525420570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 867f2cb533f358b4a9eb8c116b26ebbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolingID: 2
+  isPlayer: 0
+  characterType: 1
+  healthBar: {fileID: 3233424953597602719}
+  maxHealth: 30
+  health: 0
+  attackRange: 2
+  attackRangeSecondary: 2.7
+  bodyRadius: 0.9
+  isAttacking: 0
+  isStunned: 0
+  isFrozen: 0
+  attackCanceled: 0
+  baseMoveSpeed: 0.5
+  moveDirection: {x: 0, y: 1}
+  currentMoveSpeed: 0
+  animator: {fileID: 5772311347393521458}
+--- !u!114 &95380086487483362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5857580564525420570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d28b9ef9b5ff3b43b7b26a664278c0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackSpeed: 1
+  damageAmount: 4
+  attackTime: 1
 --- !u!95 &5772311347393521458
 Animator:
   serializedVersion: 4
@@ -153,49 +197,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
---- !u!114 &95380086487483361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5857580564525420570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 867f2cb533f358b4a9eb8c116b26ebbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveDirection: {x: 0, y: 1}
-  poolingID: 2
-  isPlayer: 0
-  characterType: 1
-  isAttacking: 0
-  isStunned: 0
-  isFrozen: 0
-  attackRange: 2
-  attackRangeSecondary: 2.7
-  bodyRadius: 0.9
-  baseMoveSpeed: 0.5
-  currentMoveSpeed: 0
-  maxHealth: 30
-  health: 0
-  healthBar: {fileID: 3233424953597602719}
-  animator: {fileID: 5772311347393521458}
---- !u!114 &95380086487483362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5857580564525420570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d28b9ef9b5ff3b43b7b26a664278c0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackSpeed: 1
-  damageAmount: 4
-  attackTime: 1
 --- !u!1 &5857592101781303026
 GameObject:
   m_ObjectHideFlags: 0

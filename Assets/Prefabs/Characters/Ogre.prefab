@@ -124,9 +124,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1641070343036938222}
   - component: {fileID: 1641070343036938221}
+  - component: {fileID: 5583462222515660271}
   - component: {fileID: 7783593123747892974}
   - component: {fileID: 6534784009302460303}
-  - component: {fileID: 5583462222515660271}
   m_Layer: 0
   m_Name: Ogre
   m_TagString: Enemy
@@ -164,22 +164,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867f2cb533f358b4a9eb8c116b26ebbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDirection: {x: 0, y: 1}
   poolingID: 1
   isPlayer: 0
   characterType: 2
-  isAttacking: 0
-  isStunned: 0
-  isFrozen: 0
+  healthBar: {fileID: 5196457603065185515}
+  maxHealth: 10
+  health: 0
   attackRange: 1
   attackRangeSecondary: 1.3
   bodyRadius: 0.2
+  isAttacking: 0
+  isStunned: 0
+  isFrozen: 0
+  attackCanceled: 0
   baseMoveSpeed: 1.1
+  moveDirection: {x: 0, y: 1}
   currentMoveSpeed: 0
-  maxHealth: 10
-  health: 0
-  healthBar: {fileID: 5196457603065185515}
   animator: {fileID: 5531479465771307300}
+--- !u!114 &5583462222515660271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641070343036938218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d28b9ef9b5ff3b43b7b26a664278c0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackSpeed: 1
+  damageAmount: 1
+  attackTime: 0.6
 --- !u!54 &7783593123747892974
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -210,21 +226,6 @@ CapsuleCollider:
   m_Height: 0.97987795
   m_Direction: 1
   m_Center: {x: 0, y: 0.49672818, z: -0.025440514}
---- !u!114 &5583462222515660271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1641070343036938218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d28b9ef9b5ff3b43b7b26a664278c0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackSpeed: 1
-  damageAmount: 1
-  attackTime: 0.6
 --- !u!1 &5589591317228296496
 GameObject:
   m_ObjectHideFlags: 0
