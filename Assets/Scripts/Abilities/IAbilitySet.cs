@@ -4,9 +4,13 @@ using UnityEngine;
 
 public interface IAbilitySet
 {
+    float Ability1Cooldown {get; set;}
+    float Ability2Cooldown {get; set;}
+    float PassiveChance {get; set;}
+    bool PassiveSuccessful {get; set;}
+
+    void Attack();
     void Ability1();
     void Ability2();
     void AbilityPassive();
-    float PassiveChance {get; set;}
-    bool PassiveSuccessful {get; set;}
 }

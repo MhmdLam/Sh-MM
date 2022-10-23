@@ -1,25 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Events;
 
-public class InputManager : MonoBehaviour
+public class AndroidInput : InputManager
 {
-    //public DirectionState directionState = DirectionState.Forward;
-    [HideInInspector] public Vector2 inputVector = new Vector2();
-    [HideInInspector] public Camera mainCamera;
-    [SerializeField] private FixedJoystick joystick;
-    private bool bodyChangeActive = false;
-    public RectTransform[] areasToIgnore;
-
-    [SerializeField] private UnityEvent<Character> OnCharacterRayCast;
-    [SerializeField] private UnityEvent OnBodyChangeStarted;
-    [SerializeField] private UnityEvent OnBodyChangeEnded;
-
-
-
-
     private void Update()
     {
         //directionState = DirectionState.Forward;
@@ -61,21 +45,4 @@ public class InputManager : MonoBehaviour
             }
         }
     }
-
-    public void StartBodyChange()
-    {
-        if (OnBodyChangeStarted!=null)
-            OnBodyChangeStarted.Invoke();
-        bodyChangeActive = true;
-    }
 }
-
-public enum DirectionState
-{
-    Forward,
-    Right,
-    Left
-};
-
-//[System.Serializable]
-//public class CharacterEvent : Unity

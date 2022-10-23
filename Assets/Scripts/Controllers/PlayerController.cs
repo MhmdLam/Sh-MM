@@ -3,81 +3,88 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
+using NaughtyAttributes;
 
-[RequireComponent(typeof(InputManager))]
 public class PlayerController : MonoBehaviour
 {
-    public string playerTag = "Player";
-    public string enemyTag = "Enemy";
-    [HideInInspector] public InputManager inputManager;
-    // [SerializeField] private float turnSpeed = 1f;
 
-    public static bool isInvincible = false;
-    public static float invincibleTime = 2f;
-    private CharacterType currentPlayerType;
-    [SerializeField] private float moveSpeedMult = 1.5f;
-    [SerializeField] private float healthBarSizeMult = 1.2f;
+    public static PlayerController Instance {get; private set;} // this class's singleton
 
+
+    // ****Tags****
+    [HideInInspector] public string playerTag = "Player";
+    [HideInInspector] public string enemyTag = "Enemy";
+
+
+    // ****References****
+    [Header("****Refrences****")]
     [SerializeField] private Character playerCharcterScript;
+    [HideInInspector] public InputManager inputManager;
     [SerializeField] public static Character player; // *****
     [SerializeField] private Canvas playerIndicator;
     [SerializeField] private GameObject ghost;
-    [SerializeField] private float bodyChangeSpeed = 5f;
+    private AttackCaller attackCaller;
+    public GameObject splashPrefab;
+
+
+    // ****BodyChange****
+    [Header("****BodyChange****")]
+    // [SerializeField] private float bodyChangeSpeed = 5f;
     [SerializeField] private float bodyChangeTime = 0.3f;
     [SerializeField] private float bodyChangeTimeScale = 0.3f;
-    private float bodyChangeDistance;
+    // private float bodyChangeDistance;
     private bool currentlyChangingBodies = false;
+    [SerializeField] [ReadOnly] private CharacterType currentPlayerType;
+    
+
+    // ****Abilities****
+    private Action AttackAction;
+    private Action Ability1Action;
+    [Header("****Abilities****")]
+    public float ability1Cooldown;
+    private Action Ability2Action;
+    public float ability2Cooldown;
+    private Action AbilityPassiveAction;
+    public float passiveChance;
+
+
+    // ****OtherValues****
+    [Header("****Other****")]
+    public float invincibleTime = 2f;
+    [HideInInspector] public bool isInvincible = false;
+    [SerializeField] private float moveSpeedMult = 1.5f;
+    [SerializeField] private float healthBarSizeMult = 1.2f;
+
+
+    // ****Other****
     private Vector2 playerLastDir = Vector2.up;
     private Vector2 playerDir;
-
-    private Action Ability1Action;
-    private Action Ability2Action;
-    public static Action AbilityPassiveAction;
-    public static float passiveChance;
-
-    private BulletShooter bulletShooter;
-
-    [SerializeField] private GameObject splashPrefab;
-    public static GameObject SplashPrefab;
 
 
     private void Awake()
     {
-        bulletShooter = GetComponent<BulletShooter>();
-        SplashPrefab = splashPrefab;
+        // assign references
+        Instance = this;
+        attackCaller = GetComponent<AttackCaller>();
     }
 
     private void Start()
     {
-        // abilitySets.Add(new ZombieAbilitySet());
-        // abilitySets.Add(new GolemAbilitySet());
+        // ***Add new ability sets here***
         abilitySets.Add(new WizardAbilitySet());
         abilitySets.Add(new GolemAbilitySet());
         abilitySets.Add(new OgreAbilitySet());
 
+        currentPlayerType = CharacterType.None;
         PlayerController.player = playerCharcterScript;
         SetAsPlayer(ref player);
-
-        Ability1Action = abilitySets[0].Ability1;
-        Ability2Action = abilitySets[0].Ability2;
-        AbilityPassiveAction = abilitySets[0].AbilityPassive;
-        passiveChance = abilitySets[0].PassiveChance;
     }
 
-    private void Update()
-    {
-        if (currentlyChangingBodies)
-        {
-            // Debug.Log(ghost.transform.position);
-            ghost.transform.position = Vector3.Lerp(ghost.transform.position, playerIndicator.transform.position, Time.deltaTime*bodyChangeSpeed*bodyChangeDistance);
-        }
-    }
 
     // called by the MainController to calculate the player direction
     public void Calculate()
     {
         playerDir = inputManager.inputVector;
-        //playerDir.Normalize();
 
         if (playerDir.magnitude!=0)
         {
@@ -93,11 +100,11 @@ public class PlayerController : MonoBehaviour
     // applies damage to the player
     public static void ApplyDamage(float damageAmount)
     {
-        if (!isInvincible)
+        if (!Instance.isInvincible)
             player.ApplyDamage(damageAmount);
     }
 
-    // called when a new player is assigned
+    // called to prepare the new player's body(character script)
     private void SetAsPlayer(ref Character character)
     {
         isInvincible = true;
@@ -106,45 +113,63 @@ public class PlayerController : MonoBehaviour
         player = character;
         player.gameObject.tag = playerTag;
         player.isPlayer = true;
-        playerIndicator.transform.SetParent(player.transform);
-        playerIndicator.transform.localPosition = Vector3.zero;
-        player.animator.SetBool("Running", true);
-        playerLastDir = player.moveDirection;
+
         player.currentMoveSpeed = player.baseMoveSpeed*moveSpeedMult;
+        playerLastDir = player.moveDirection;
+
+        player.animator.SetBool("Running", true);
+
         player.healthBar.transform.localScale *= healthBarSizeMult;
         player.healthBar.isPlayer = true;
         player.UpdateHealthBar();
+
+        playerIndicator.transform.SetParent(player.transform);
+        playerIndicator.transform.localPosition = Vector3.zero;
+
+        // change ability sets if needed
+        if (currentPlayerType!=character.characterType)
+        {
+            currentPlayerType = character.characterType;
+            // Debug.Log("changed types:"+currentPlayerType.ToString());
+            AttackAction = abilitySets[(int)currentPlayerType].Attack;
+            Ability1Action = abilitySets[(int)currentPlayerType].Ability1;
+            Ability2Action = abilitySets[(int)currentPlayerType].Ability2;
+            AbilityPassiveAction = abilitySets[(int)currentPlayerType].AbilityPassive;
+
+            ability1Cooldown = abilitySets[(int)currentPlayerType].Ability1Cooldown;
+            ability2Cooldown = abilitySets[(int)currentPlayerType].Ability2Cooldown;
+            passiveChance = abilitySets[(int)currentPlayerType].PassiveChance;
+        }
     }
 
-    // called when a character is no longer the player
+    // called to reset the former player body(character script)
     private void UnsetAsPlayer()
     {
-        player.gameObject.tag = enemyTag;
         player.isPlayer = false;
-        player.animator.SetBool("Running", false);
+        player.gameObject.tag = enemyTag;
+
         player.currentMoveSpeed = player.baseMoveSpeed;
+
+        player.animator.SetBool("Running", false);
+
         player.healthBar.transform.localScale /= healthBarSizeMult;
         player.healthBar.isPlayer = false;
         player.UpdateHealthBar();
         //player.Die();
     }
 
-    // changes players' body
+    // changes player's body
     public void ChangeBody(Character character)
     {
         currentlyChangingBodies = true;
 
+        // start ghost transition animation
         ghost.SetActive(true);
-        // Debug.Log(ghost.transform.position);
-        ghost.transform.position = playerIndicator.transform.position;
-        ghost.transform.LookAt(character.transform.position);
+        ghost.GetComponent<Ghost>().StartAnimation(player.transform.position, character.transform.position);
         SimpleCameraFollow.Instance.smoothMovement = true;
         Time.timeScale = bodyChangeTimeScale;
-        bodyChangeDistance = Vector3.Distance(ghost.transform.position, character.transform.position);
-        bodyChangeDistance = (float) Math.Sqrt(bodyChangeDistance);
         FunctionTimer.Create(
                             () => {
-                                // Debug.Log("body change successful");
                                 ghost.SetActive(false);
                                 SimpleCameraFollow.Instance.smoothMovement = false;
                                 Time.timeScale=1f;
@@ -153,47 +178,31 @@ public class PlayerController : MonoBehaviour
                             bodyChangeTime, "Body Change", false, true
                             );
 
+        // actually change bodies
         UnsetAsPlayer();
         SetAsPlayer(ref character);
-        if (currentPlayerType!=character.characterType)
-        {
-            currentPlayerType = character.characterType;
-            Debug.Log("changed types:"+currentPlayerType.ToString());
-            Ability1Action = abilitySets[(int)currentPlayerType].Ability1;
-            Ability2Action = abilitySets[(int)currentPlayerType].Ability2;
-            AbilityPassiveAction = abilitySets[(int)currentPlayerType].AbilityPassive;
-            passiveChance = abilitySets[(int)currentPlayerType].PassiveChance;
-
-            if (currentPlayerType==CharacterType.Wizard)
-            {
-                //bulletShooter.canShoot = true;
-                bulletShooter.AttackAction = bulletShooter.Shoot;
-            }
-            else
-            {
-                //bulletShooter.canShoot = false;
-                bulletShooter.AttackAction = bulletShooter.Melee;
-            }
-        }
-        player.transform.tag = "Player";
-    }
-
-    public void DamageTest()
-    {
-        player.ApplyDamage(2f);
     }
 
 
-    //******Abilities******
-    //[Header("Abilities")]
+    // ******AbilitiesFunctions******
     private List<IAbilitySet> abilitySets = new List<IAbilitySet>();
     
+    // calls the attack function
+    public void Attack()
+    {
+        if (AttackAction!=null)
+            AttackAction();
+        else
+            Debug.Log("Attack Action is Null!");
+    }
 
     // calls the first ability
     public void Ability1()
     {
         if (Ability1Action!=null)
             Ability1Action();
+        else
+            Debug.Log("Ability1 Action is Null!");
     }
 
     // calls the second ability
@@ -201,5 +210,16 @@ public class PlayerController : MonoBehaviour
     {
         if (Ability2Action!=null)
             Ability2Action();
+        else
+            Debug.Log("Ability1 Action is Null!");
+    }
+
+    // calls the passive ability
+    public void Passive()
+    {
+        if (Ability2Action!=null)
+            AbilityPassiveAction();
+        else
+            Debug.Log("AbilityPassive Action is Null!");
     }
 }

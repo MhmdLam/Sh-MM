@@ -17,8 +17,25 @@ public class WizardAbilitySet : IAbilitySet
     [SerializeField]
     private bool passiveSuccessful = false;
     public bool PassiveSuccessful {get{return passiveSuccessful;} set{passiveSuccessful=value;}}
+    private float ability1Cooldown = 1f;
+    public float Ability1Cooldown {get{return ability1Cooldown;} set{ability1Cooldown=value;}}
+    private float ability2Cooldown = 1f;
+    public float Ability2Cooldown {get{return ability2Cooldown;} set{ability2Cooldown=value;}}
+
+    public static Bullet lastBullet;
 
 
+        public void Attack() // Fireball
+    {
+        Transform firePoint = PlayerController.player.transform.GetChild(0);
+        Bullet bullet = PoolsManager.Instance.Get(0, out bool newObjectInstantiated).GetComponent<Bullet>();
+        bullet.gameObject.SetActive(true);
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = firePoint.rotation;
+        //bullet.transform.SetParent(bulletsParent);
+
+        lastBullet = bullet;
+    }
     public void Ability1() // Rain Of Fire
     {
         Vector3 spawnLocation = new Vector3(
@@ -44,8 +61,8 @@ public class WizardAbilitySet : IAbilitySet
     {
         Debug.Log("Big is Good!");
         PassiveSuccessful = true;
-        if (BulletShooter.lastBullet)
-            BulletShooter.lastBullet.DestroyBullet();
+        if (lastBullet)
+            lastBullet.DestroyBullet();
         
         Transform firePoint = PlayerController.player.transform.GetChild(0);
         Bullet bullet = PoolsManager.Instance.Get(4, out bool newObjectInstantiated).GetComponent<Bullet>();

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 public class EnemyController : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class EnemyController : MonoBehaviour
     public List<Character> characters;
     [SerializeField] private float enemyTurnSpeed = 5f;
 
-    public int groupsCount = 3;
+    [Label("Calculation Groups Count")] public int groupsCount = 3;
     private int groupsI = 0;
 
 
@@ -35,7 +36,7 @@ public class EnemyController : MonoBehaviour
             newDir.y = target.position.z - characters[j].transform.position.z;
             if (!characters[j].isStunned && !characters[j].isFrozen && !characters[j].isAttacking)
             {
-                if (!characters[j].isPlayer && newDir.magnitude<=characters[j].attackRange)
+                if (!characters[j].isPlayer && newDir.magnitude<=(characters[j].attackRange+PlayerController.player.bodyRadius))
                 {
                     characters[j].Attack();
                 }
