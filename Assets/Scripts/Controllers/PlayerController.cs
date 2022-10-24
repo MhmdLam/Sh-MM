@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public static Character player; // *****
     [SerializeField] private Canvas playerIndicator;
     [SerializeField] private GameObject ghost;
-    private AttackCaller attackCaller;
+    public AttackCaller attackCaller;
     public GameObject splashPrefab;
 
 
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
     // ****Abilities****
     private Action AttackAction;
-    public float attackInterval;
+    public float AttackInterval { get{return attackCaller.attackInterval;} set{attackCaller.attackInterval=value;}}
     private Action Ability1Action;
     [Header("****Abilities****")]
     public float ability1Cooldown;
@@ -137,12 +137,10 @@ public class PlayerController : MonoBehaviour
             Ability2Action = abilitySets[(int)currentPlayerType].Ability2;
             AbilityPassiveAction = abilitySets[(int)currentPlayerType].AbilityPassive;
 
-            attackInterval = abilitySets[(int)currentPlayerType].AttackInterval;
+            AttackInterval = abilitySets[(int)currentPlayerType].AttackInterval;
             ability1Cooldown = abilitySets[(int)currentPlayerType].Ability1Cooldown;
             ability2Cooldown = abilitySets[(int)currentPlayerType].Ability2Cooldown;
             passiveChance = abilitySets[(int)currentPlayerType].PassiveChance;
-
-            attackCaller.attackInterval = attackInterval;
         }
     }
 

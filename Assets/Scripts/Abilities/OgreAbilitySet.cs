@@ -5,6 +5,11 @@ using CodeMonkey.Utils;
 
 public class OgreAbilitySet : IAbilitySet
 {
+    public float attackDamage = 1f;
+    public Vector3 attackHalfSize = new Vector3(1.1f,1f,0.6f);
+    public float attackDisFromPlayer = 0.5f;
+    public float knockBackForce = 30f;
+
     [SerializeField]
     private float passiveChance = 0.2f;
     public float PassiveChance {get{return passiveChance;} set{passiveChance=value;}}
@@ -30,8 +35,23 @@ public class OgreAbilitySet : IAbilitySet
 
     public void Attack()
     {
-        //throw new System.NotImplementedException();
+        Debug.Log("Ogre attack!");
+        Collider[] hits = Physics.OverlapBox(
+                                            PlayerController.player.transform.position+PlayerController.player.transform.forward*attackDisFromPlayer,
+                                            attackHalfSize,
+                                            PlayerController.player.transform.rotation
+                                            );
+
+        foreach(var hit in hits){
+            if(hit.tag == "Enemy")
+            {
+                Character hitCharacter = hit.GetComponent<Character>();
+                hitCharacter.ApplyDamage(attackDamage);
+                hitCharacter.ApplyKnockBack(knockBackForce, PlayerController.player.transform.position);
+            }
+        }
     }
+
     public void Ability1()
     {
         Debug.Log("Ogre Speed-up!");
@@ -60,10 +80,18 @@ public class OgreAbilitySet : IAbilitySet
         GameObject.Destroy(Area, 10);
     }
 
-    private void SpeedUp()
+    private void SpeedUp() // ********
     {
         PlayerController.player.currentMoveSpeed *= speedMultAmount;
-        FunctionTimer.Create(()=>{PlayerController.player.currentMoveSpeed/=speedMultAmount;}, speedMultTime, "Speed Mult");
+        PlayerController.Instance.AttackInterval /= speedMultAmount;
+        FunctionTimer.Create(
+                            ()=>{
+                                PlayerController.player.currentMoveSpeed /= speedMultAmount;
+                                PlayerController.Instance.AttackInterval *= speedMultAmount;
+                                },
+                            speedMultTime,
+                            "Speed Mult"
+                            );
     }
 
     private void Stun()

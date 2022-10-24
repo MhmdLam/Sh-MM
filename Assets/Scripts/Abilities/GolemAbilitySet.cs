@@ -11,6 +11,7 @@ public class GolemAbilitySet : IAbilitySet
     public float ability2Damage = 1f;
     public float ability2Radius = 2f;
     public int ability2Counter = 0;
+    public float knockBackForce = 30f;
 
     public float criticalMult = 1f;
     private float criticalMin=1f, criticalMax=2f;
@@ -47,7 +48,7 @@ public class GolemAbilitySet : IAbilitySet
                     ability2Counter--;
                 }
                 criticalMult = 1f;
-                if (knockBack) hitCharacter.ApplyKnockBack(30f, PlayerController.player.transform.position);
+                if (knockBack) hitCharacter.ApplyKnockBack(knockBackForce, PlayerController.player.transform.position);
                 counter++;
             }
         }
