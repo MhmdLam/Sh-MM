@@ -21,7 +21,7 @@ public class MeleeAttack : MonoBehaviour, IAttack
     }
     private void AttackAsEnemyEnd()
     {
-        if (this.enabled && !Character.attackCanceled && Vector3.Distance(transform.position, PlayerController.player.transform.position)<=Character.attackRangeSecondary)
+        if (this.enabled && !Character.attackCanceled && Vector3.Distance(transform.position, PlayerController.player.transform.position)<=Character.attackRangeSecondary+PlayerController.player.bodyRadius)
         {
             PlayerController.ApplyDamage(damageAmount);
         }
