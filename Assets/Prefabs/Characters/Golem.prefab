@@ -120,6 +120,7 @@ MonoBehaviour:
   characterType: 1
   healthBar: {fileID: 3233424953597602719}
   maxHealth: 30
+  hPRatio: 0
   health: 0
   attackRange: 2
   attackRangeSecondary: 2.7
@@ -147,6 +148,7 @@ MonoBehaviour:
   attackSpeed: 1
   damageAmount: 4
   attackTime: 1
+  attackOverTime: 1.5
 --- !u!95 &5772311347393521458
 Animator:
   serializedVersion: 4

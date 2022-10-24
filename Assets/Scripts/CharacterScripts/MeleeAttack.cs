@@ -10,8 +10,14 @@ public class MeleeAttack : MonoBehaviour, IAttack
     public float AttackSpeed {get; set;}
     [SerializeField] private float damageAmount = 1f;
     [SerializeField] private float attackTime = 1f;
+    [SerializeField] private float attackOverTime = 0.1f;
     [HideInInspector] public Character Character { get; set;}
 
+
+    private void OnDisable()
+    {
+        Character.attackCanceled = true;
+    }
     public void AttackAsEnemy()
     {
         Character.animator.SetFloat("AttackSpeed", attackSpeed);
@@ -21,11 +27,12 @@ public class MeleeAttack : MonoBehaviour, IAttack
     }
     private void AttackAsEnemyEnd()
     {
-        if (this.enabled && !Character.attackCanceled && Vector3.Distance(transform.position, PlayerController.player.transform.position)<=Character.attackRangeSecondary+PlayerController.player.bodyRadius)
+        if (gameObject.activeInHierarchy && !Character.attackCanceled && Vector3.Distance(transform.position, PlayerController.player.transform.position)<=Character.attackRangeSecondary+PlayerController.player.bodyRadius)
         {
             PlayerController.ApplyDamage(damageAmount);
         }
-        Character.isAttacking = false;
+
+        FunctionTimer.Create(() => { Character.isAttacking = false;}, (attackTime+attackOverTime)/attackSpeed);
     }
 
     public void AttackAsPlayer()

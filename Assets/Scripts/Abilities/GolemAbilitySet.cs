@@ -6,8 +6,12 @@ public class GolemAbilitySet : IAbilitySet
 {
     public float attackDamage = 1f;
     public float attackRadius = 2f;
-    public float mdamage = 3f;
-    public float radius = 2.5f;
+    public float ability1Damage = 3f;
+    public float ability1Radius = 2.5f;
+    public float ability2Damage = 1f;
+    public float ability2Radius = 2f;
+    public int ability2Counter = 0;
+
     public float criticalMult = 1f;
     private float criticalMin=1f, criticalMax=2f;
 
@@ -25,31 +29,45 @@ public class GolemAbilitySet : IAbilitySet
     private float ability2Cooldown = 1f;
     public float Ability2Cooldown {get{return ability2Cooldown;} set{ability2Cooldown=value;}}
 
-    private void AreaAttack(float maindamage, float radius)
+    private int AreaAttack(float maindamage, float radius, bool knockBack=true)
     {
+        int counter = 0;
         Collider[] hits = Physics.OverlapSphere(PlayerController.player.transform.position,radius);
         foreach(var hit in hits){
-            if(hit.tag == "Enemy"){
+            if(hit.tag == "Enemy")
+            {
                 Character hitCharacter = hit.GetComponent<Character>();
-                hitCharacter.ApplyDamage(mdamage*criticalMult);
+                if (ability2Counter==0)
+                {
+                    hitCharacter.ApplyDamage(ability1Damage*criticalMult);
+                }
+                else
+                {
+                    hitCharacter.ApplyDamage((ability1Damage*(1+0.1f*ability2Counter))*criticalMult);
+                    ability2Counter--;
+                }
                 criticalMult = 1f;
-                hitCharacter.ApplyKnockBack(30f, PlayerController.player.transform.position);
+                if (knockBack) hitCharacter.ApplyKnockBack(30f, PlayerController.player.transform.position);
+                counter++;
             }
         }
+
+        return counter;
     }
 
     public void Attack()
     {
         Debug.Log("Golem Attack!");
-        AreaAttack(mdamage, attackRadius);
+        AreaAttack(attackDamage, attackRadius);
     }
-    public void Ability1(){
-        Debug.Log("Golem Ability 1");
-        AreaAttack(mdamage, radius);
-
+    public void Ability1()
+    {
+        AreaAttack(ability1Damage, ability1Radius);
     }
-    public void Ability2(){
-        Debug.Log("Golem Ability 2");
+    public void Ability2()
+    {
+        Debug.Log("Golem strength stealer!");
+        ability2Counter = AreaAttack(ability2Damage, ability2Radius, false);
     }
 
     public void AbilityPassive() 

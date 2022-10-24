@@ -34,7 +34,7 @@ public class EnemyController : MonoBehaviour
         {
             newDir.x = target.position.x - characters[j].transform.position.x;
             newDir.y = target.position.z - characters[j].transform.position.z;
-            if (!characters[j].isStunned && !characters[j].isFrozen && !characters[j].isAttacking)
+            if (characters[j].gameObject.activeInHierarchy && !characters[j].isStunned && !characters[j].isFrozen && !characters[j].isAttacking)
             {
                 if (!characters[j].isPlayer && newDir.magnitude<=(characters[j].attackRange+PlayerController.player.bodyRadius))
                 {
