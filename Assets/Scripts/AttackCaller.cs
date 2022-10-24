@@ -10,19 +10,20 @@ public class AttackCaller : MonoBehaviour
     public GameObject BulletPrefab;
     [SerializeField] private Transform parentTransform;
     //public PlayerController pl;
-    float time1, TimeFire;
+    float time1;
+    public float attackInterval;
 
     public static Bullet lastBullet;
     void Start()
     {
         time1 = 0f;
-        TimeFire = 1f;
+        attackInterval = 1f;
     }
 
     void Update()
     {
         time1 += Time.deltaTime;
-        if (time1 > TimeFire)
+        if (time1 > attackInterval)
         {
             time1 = 0f;
             PlayerController.Instance.Attack();

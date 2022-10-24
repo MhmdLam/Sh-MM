@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IAbilitySet
 {
+    float AttackInterval {get; set;}
     float Ability1Cooldown {get; set;}
     float Ability2Cooldown {get; set;}
     float PassiveChance {get; set;}

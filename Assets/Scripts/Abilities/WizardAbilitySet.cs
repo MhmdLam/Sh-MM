@@ -17,6 +17,9 @@ public class WizardAbilitySet : IAbilitySet
     [SerializeField]
     private bool passiveSuccessful = false;
     public bool PassiveSuccessful {get{return passiveSuccessful;} set{passiveSuccessful=value;}}
+
+    private float attackInterval = 1f;
+    public float AttackInterval {get{return attackInterval;} set{attackInterval=value;}}
     private float ability1Cooldown = 1f;
     public float Ability1Cooldown {get{return ability1Cooldown;} set{ability1Cooldown=value;}}
     private float ability2Cooldown = 1f;
