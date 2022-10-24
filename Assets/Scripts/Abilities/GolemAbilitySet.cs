@@ -8,9 +8,11 @@ public class GolemAbilitySet : IAbilitySet
     public float attackRadius = 2f;
     public float mdamage = 3f;
     public float radius = 2.5f;
+    public float criticalMult = 1f;
+    private float criticalMin=1f, criticalMax=2f;
 
     [SerializeField]
-    private float passiveChance = 0.2f;
+    private float passiveChance = 1f;
     public float PassiveChance {get{return passiveChance;} set{passiveChance=value;}}
     [SerializeField]
     private bool passiveSuccessful = false;
@@ -29,14 +31,11 @@ public class GolemAbilitySet : IAbilitySet
         foreach(var hit in hits){
             if(hit.tag == "Enemy"){
                 Character hitCharacter = hit.GetComponent<Character>();
-                hitCharacter.ApplyDamage(mdamage);
+                hitCharacter.ApplyDamage(mdamage*criticalMult);
+                criticalMult = 1f;
                 hitCharacter.ApplyKnockBack(30f, PlayerController.player.transform.position);
             }
         }
-    }
-    private void CiriticalDamage(float damage)
-    {
-        // not implemented
     }
 
     public void Attack()
@@ -53,7 +52,12 @@ public class GolemAbilitySet : IAbilitySet
         Debug.Log("Golem Ability 2");
     }
 
-    public void AbilityPassive() {}
+    public void AbilityPassive() 
+    {
+        //criticalMult = UnityEngine.Random.Range(criticalMin, criticalMax);
+        Debug.Log("next attack is a critical!");
+        criticalMult = criticalMax;
+    }
 
     
 }
