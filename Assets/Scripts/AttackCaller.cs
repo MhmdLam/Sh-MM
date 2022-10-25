@@ -17,7 +17,7 @@ public class AttackCaller : MonoBehaviour
     void Start()
     {
         time1 = 0f;
-        attackInterval = 1f;
+        //attackInterval = 1f;
     }
 
     void Update()
@@ -27,10 +27,10 @@ public class AttackCaller : MonoBehaviour
         {
             time1 = 0f;
             PlayerController.Instance.Attack();
-            if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.Instance.passiveChance)
-            {
-                PlayerController.Instance.Passive();
-            }
+            // if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.Instance.passiveChance)
+            // {
+            //     PlayerController.Instance.Passive();
+            // }
         }
     }
 }

@@ -18,7 +18,7 @@ public class WizardAbilitySet : IAbilitySet
     private bool passiveSuccessful = false;
     public bool PassiveSuccessful {get{return passiveSuccessful;} set{passiveSuccessful=value;}}
 
-    private float attackInterval = 1f;
+    private float attackInterval = 2.5f;
     public float AttackInterval {get{return attackInterval;} set{attackInterval=value;}}
     private float ability1Cooldown = 1f;
     public float Ability1Cooldown {get{return ability1Cooldown;} set{ability1Cooldown=value;}}
@@ -28,16 +28,28 @@ public class WizardAbilitySet : IAbilitySet
     public static Bullet lastBullet;
 
 
-        public void Attack() // Fireball
+    public void Attack() // Fireball
     {
-        Transform firePoint = PlayerController.player.transform.GetChild(0);
-        Bullet bullet = PoolsManager.Instance.Get(0, out bool newObjectInstantiated).GetComponent<Bullet>();
-        bullet.gameObject.SetActive(true);
-        bullet.transform.position = firePoint.position;
-        bullet.transform.rotation = firePoint.rotation;
-        //bullet.transform.SetParent(bulletsParent);
+        PlayerController.player.animator.SetTrigger("PlayerAttack");
 
-        lastBullet = bullet;
+        CodeMonkey.Utils.FunctionTimer.Create(
+        () => 
+        {
+            Transform firePoint = PlayerController.player.transform.GetChild(0);
+            Bullet bullet = PoolsManager.Instance.Get(0, out bool newObjectInstantiated).GetComponent<Bullet>();
+            bullet.gameObject.SetActive(true);
+            bullet.transform.position = firePoint.position;
+            bullet.transform.rotation = firePoint.rotation;
+            //bullet.transform.SetParent(bulletsParent);
+
+            lastBullet = bullet;
+
+            if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.Instance.passiveChance)
+            {
+                PlayerController.Instance.Passive();
+            }
+        },
+        0.9f);
     }
     public void Ability1() // Rain Of Fire
     {

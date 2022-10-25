@@ -36,20 +36,34 @@ public class OgreAbilitySet : IAbilitySet
     public void Attack()
     {
         Debug.Log("Ogre attack!");
-        Collider[] hits = Physics.OverlapBox(
-                                            PlayerController.player.transform.position+PlayerController.player.transform.forward*attackDisFromPlayer,
-                                            attackHalfSize,
-                                            PlayerController.player.transform.rotation
-                                            );
+        PlayerController.player.animator.SetTrigger("PlayerAttack");
 
-        foreach(var hit in hits){
-            if(hit.tag == "Enemy")
+        CodeMonkey.Utils.FunctionTimer.Create(
+        () => 
+        {
+            Collider[] hits = Physics.OverlapBox(
+                                                PlayerController.player.transform.position+PlayerController.player.transform.forward*attackDisFromPlayer,
+                                                attackHalfSize,
+                                                PlayerController.player.transform.rotation
+                                                );
+
+            foreach(var hit in hits)
             {
-                Character hitCharacter = hit.GetComponent<Character>();
-                hitCharacter.ApplyDamage(attackDamage);
-                hitCharacter.ApplyKnockBack(knockBackForce, PlayerController.player.transform.position);
+                if(hit.tag == "Enemy")
+                {
+                    Character hitCharacter = hit.GetComponent<Character>();
+                    hitCharacter.ApplyDamage(attackDamage);
+                    hitCharacter.ApplyKnockBack(knockBackForce, PlayerController.player.transform.position);
+                }
             }
-        }
+
+            if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.Instance.passiveChance)
+            {
+                PlayerController.Instance.Passive();
+            }
+        },
+        0.8f);
+        
     }
 
     public void Ability1()

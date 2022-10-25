@@ -60,6 +60,11 @@ public class GolemAbilitySet : IAbilitySet
     {
         Debug.Log("Golem Attack!");
         AreaAttack(attackDamage, attackRadius);
+
+        if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.Instance.passiveChance)
+        {
+            PlayerController.Instance.Passive();
+        }
     }
     public void Ability1()
     {

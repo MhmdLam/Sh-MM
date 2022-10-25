@@ -6145,10 +6145,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ogre
       objectReference: {fileID: 0}
-    - target: {fileID: 1641070343036938221, guid: 45e37544f8863b6469868185b7b175d5, type: 3}
-      propertyPath: poolingID
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 1641070343036938222, guid: 45e37544f8863b6469868185b7b175d5, type: 3}
       propertyPath: m_RootOrder
       value: 0

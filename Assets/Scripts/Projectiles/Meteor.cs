@@ -32,9 +32,10 @@ public class Meteor : MonoBehaviour, IPoolable
 
     private void OnTriggerEnter(Collider coll)
     {
-        Collider[] hits = Physics.OverlapSphere(PlayerController.player.transform.position,explosionRange);
+        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRange);
         foreach(var hit in hits){
-            if(hit.tag == "Enemy"){
+            if(hit.tag == "Enemy")
+            {
                 hit.GetComponent<Character>().ApplyDamage(damage);
             }
         }
