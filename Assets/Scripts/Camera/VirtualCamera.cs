@@ -17,8 +17,6 @@ public class VirtualCamera : MonoBehaviour
     }
     void Start()
     {
-
-
         framingTransposer.m_CameraDistance = 7.5f;
     }
     void Update()

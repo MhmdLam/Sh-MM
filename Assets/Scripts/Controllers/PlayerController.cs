@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 
     public static PlayerController Instance {get; private set;} // this class's singleton
 
+    public CameraShake cameraShake;
 
     // ****Tags****
     [HideInInspector] public string playerTag = "Player";
@@ -206,7 +207,10 @@ public class PlayerController : MonoBehaviour
     public void Ability1()
     {
         if (Ability1Action!=null)
-            Ability1Action();
+            {
+                Ability1Action();
+                cameraShake.Shake(3f,0.5f);
+            }
         else
             Debug.Log("Ability1 Action is Null!");
     }
