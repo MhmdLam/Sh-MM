@@ -1,20 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class VirtualCamera : MonoBehaviour
 {
 
-    public Cinemachine.CinemachineVirtualCamera virtualcamera;
+    public CinemachineVirtualCamera cinemachineVirtual;
     private bool CheckCameraZom = true;
     public InputManager input;
     void Start()
     {
-
+         cinemachineVirtual = GetComponent<CinemachineVirtualCamera>();
+         CinemachineFramingTransposer framingTransposer = cinemachineVirtual.AddCinemachineComponent<CinemachineFramingTransposer>();
     }
     void Update()
     {
-        virtualcamera.Follow = PlayerController.player.transform;
+        cinemachineVirtual.Follow = PlayerController.player.transform;
         //virtualcamera.LookAt = PlayerController.player.transform;
         if (input.bodyChangeActive && CheckCameraZom)
         {
@@ -31,13 +33,13 @@ public class VirtualCamera : MonoBehaviour
     }
     private void ZomOutCamera()
     {
-        Cinemachine.CinemachineFramingTransposer framingTransposer = virtualcamera.AddCinemachineComponent<Cinemachine.CinemachineFramingTransposer>();
+        CinemachineFramingTransposer framingTransposer = cinemachineVirtual.AddCinemachineComponent<CinemachineFramingTransposer>();
         framingTransposer.m_CameraDistance=15f;
 
     }
     private void CameraBackTpNormal()
     {
-        Cinemachine.CinemachineFramingTransposer framingTransposer = virtualcamera.AddCinemachineComponent<Cinemachine.CinemachineFramingTransposer>();
+        CinemachineFramingTransposer framingTransposer = cinemachineVirtual.AddCinemachineComponent<CinemachineFramingTransposer>();
         framingTransposer.m_CameraDistance=7.5f;
     }
 }
