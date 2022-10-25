@@ -6,40 +6,32 @@ using Cinemachine;
 public class VirtualCamera : MonoBehaviour
 {
 
-    public CinemachineVirtualCamera cinemachineVirtual;
+    public static CinemachineVirtualCamera cinemachineVirtual;
+    CinemachineFramingTransposer framingTransposer;
     private bool CheckCameraZom = true;
     public InputManager input;
+    void Awake()
+    {
+        cinemachineVirtual = GetComponent<CinemachineVirtualCamera>();
+        framingTransposer = cinemachineVirtual.GetCinemachineComponent<CinemachineFramingTransposer>();
+    }
     void Start()
     {
-         cinemachineVirtual = GetComponent<CinemachineVirtualCamera>();
-         CinemachineFramingTransposer framingTransposer = cinemachineVirtual.AddCinemachineComponent<CinemachineFramingTransposer>();
+
+
+        framingTransposer.m_CameraDistance = 7.5f;
     }
     void Update()
     {
-        cinemachineVirtual.Follow = PlayerController.player.transform;
-        //virtualcamera.LookAt = PlayerController.player.transform;
-        if (input.bodyChangeActive && CheckCameraZom)
-        {
-            CheckCameraZom = false;
-            ZomOutCamera();
-            Debug.Log("ZomOut");
-        }
-        else if (!input.bodyChangeActive && !CheckCameraZom)
-        {
-            CheckCameraZom = true;
-            CameraBackTpNormal();
-            Debug.Log("BackToNormal");
-        }
-    }
-    private void ZomOutCamera()
-    {
-        CinemachineFramingTransposer framingTransposer = cinemachineVirtual.AddCinemachineComponent<CinemachineFramingTransposer>();
-        framingTransposer.m_CameraDistance=15f;
 
     }
-    private void CameraBackTpNormal()
+    public void ZoomOut()
     {
-        CinemachineFramingTransposer framingTransposer = cinemachineVirtual.AddCinemachineComponent<CinemachineFramingTransposer>();
-        framingTransposer.m_CameraDistance=7.5f;
+        framingTransposer.m_CameraDistance = 15f;
+
+    }
+    public void ZoomIn()
+    {
+        framingTransposer.m_CameraDistance = 7.5f;
     }
 }

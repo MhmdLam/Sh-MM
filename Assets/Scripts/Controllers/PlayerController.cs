@@ -75,8 +75,10 @@ public class PlayerController : MonoBehaviour
         abilitySets.Add(new GolemAbilitySet());
         abilitySets.Add(new OgreAbilitySet());
 
+
         currentPlayerType = CharacterType.None;
         PlayerController.player = playerCharcterScript;
+       
         SetAsPlayer(ref player);
     }
 
@@ -114,6 +116,8 @@ public class PlayerController : MonoBehaviour
         player.gameObject.tag = playerTag;
         player.isPlayer = true;
 
+        VirtualCamera.cinemachineVirtual.Follow = player.gameObject.transform;
+
         player.currentMoveSpeed = player.baseMoveSpeed*moveSpeedMult;
         playerLastDir = player.moveDirection;
 
@@ -140,6 +144,7 @@ public class PlayerController : MonoBehaviour
             ability2Cooldown = abilitySets[(int)currentPlayerType].Ability2Cooldown;
             passiveChance = abilitySets[(int)currentPlayerType].PassiveChance;
         }
+        
     }
 
     // called to reset the former player body(character script)
@@ -181,6 +186,7 @@ public class PlayerController : MonoBehaviour
         // actually change bodies
         UnsetAsPlayer();
         SetAsPlayer(ref character);
+
     }
 
 
