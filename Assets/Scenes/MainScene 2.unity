@@ -2278,6 +2278,7 @@ MonoBehaviour:
   ghost: {fileID: 658237501}
   attackCaller: {fileID: 0}
   splashPrefab: {fileID: 6819319973631523998, guid: c60f69bcbe1a8064ea09d51fdd025b7e, type: 3}
+  stunBombPrefab: {fileID: 2479642536796446070, guid: c115f4b3a048c9040b6a433e5a95081f, type: 3}
   bodyChangeTime: 0.4
   bodyChangeTimeScale: 0.3
   currentPlayerType: 0
