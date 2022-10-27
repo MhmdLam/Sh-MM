@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject ghost;
     public AttackCaller attackCaller;
     public GameObject splashPrefab;
+    public GameObject stunBombPrefab;
 
 
     // ****BodyChange****

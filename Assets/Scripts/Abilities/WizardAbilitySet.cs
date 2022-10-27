@@ -33,43 +33,48 @@ public class WizardAbilitySet : IAbilitySet
         PlayerController.player.animator.SetTrigger("PlayerAttack");
 
         CodeMonkey.Utils.FunctionTimer.Create(
-        () => 
-        {
-            Transform firePoint = PlayerController.player.transform.GetChild(0);
-            Bullet bullet = PoolsManager.Instance.Get(0, out bool newObjectInstantiated).GetComponent<Bullet>();
-            bullet.gameObject.SetActive(true);
-            bullet.transform.position = firePoint.position;
-            bullet.transform.rotation = firePoint.rotation;
-            //bullet.transform.SetParent(bulletsParent);
-
-            lastBullet = bullet;
-
-            if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.Instance.passiveChance)
+            () =>
             {
-                PlayerController.Instance.Passive();
-            }
-        },
-        0.9f);
+                ShootFireball();
+
+                if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.Instance.passiveChance)
+                {
+                    PlayerController.Instance.Passive();
+                }
+            },
+            0.9f
+        );
     }
     public void Ability1() // Rain Of Fire
     {
-        Vector3 spawnLocation = new Vector3(
-            PlayerController.player.transform.position.x,
-            meteorSpawnY,
-            PlayerController.player.transform.position.z
-            );
+        PlayerController.player.animator.SetTrigger("PlayerAbility1");
 
-        SpawnMeteor(spawnLocation, meteorsNum);
+        CodeMonkey.Utils.FunctionTimer.Create(
+            () =>
+            {
+                Vector3 spawnLocation = new Vector3(
+                    PlayerController.player.transform.position.x,
+                    meteorSpawnY,
+                    PlayerController.player.transform.position.z
+                    );
+
+                SpawnMeteor(spawnLocation, meteorsNum);
+            },
+            1f
+        );
     }
 
     public void Ability2() // Area Freeze
     {
-        Collider[] hits = Physics.OverlapSphere(PlayerController.player.transform.position,freezeRange);
-        foreach(var hit in hits){
-            if(hit.tag == "Enemy"){
-                hit.GetComponent<Character>().ApplyFreeze(freezeDuration);
-            }
-        }
+        PlayerController.player.animator.SetTrigger("PlayerAbility2");
+
+        CodeMonkey.Utils.FunctionTimer.Create(
+            () =>
+            {
+                FreezeEnemies(PlayerController.player.transform.position);
+            },
+            1f
+        );
     }
 
     public void AbilityPassive() // Shoot big FireBall
@@ -78,13 +83,27 @@ public class WizardAbilitySet : IAbilitySet
         PassiveSuccessful = true;
         if (lastBullet)
             lastBullet.DestroyBullet();
-        
+
         Transform firePoint = PlayerController.player.transform.GetChild(0);
         Bullet bullet = PoolsManager.Instance.Get(4, out bool newObjectInstantiated).GetComponent<Bullet>();
         bullet.gameObject.SetActive(true);
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;
         //bullet.transform.SetParent(parentTransform);
+    }
+
+
+    // called by attack; shoots a fireball
+    private void ShootFireball()
+    {
+        Transform firePoint = PlayerController.player.transform.GetChild(0);
+        Bullet bullet = PoolsManager.Instance.Get(0, out bool newObjectInstantiated).GetComponent<Bullet>();
+        bullet.gameObject.SetActive(true);
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = firePoint.rotation;
+        //bullet.transform.SetParent(bulletsParent);
+
+        lastBullet = bullet;
     }
 
     // called by ability1; spawns a meteorite
@@ -97,5 +116,16 @@ public class WizardAbilitySet : IAbilitySet
         {
             CodeMonkey.Utils.FunctionTimer.Create(()=>{SpawnMeteor(pos, meteorsNum-1);}, meteorSpawnInterval);
         }
+    }
+
+    // called by ability2; freezes enemies
+    private void FreezeEnemies(Vector3 pos)
+    {
+        Collider[] hits = Physics.OverlapSphere(pos, freezeRange);
+                foreach(var hit in hits){
+                    if(hit.tag == "Enemy"){
+                        hit.GetComponent<Character>().ApplyFreeze(freezeDuration);
+                    }
+                }
     }
 }

@@ -75,7 +75,7 @@ public class OgreAbilitySet : IAbilitySet
     public void Ability2()
     {
         Debug.Log("Ogre Stun!");
-        Stun();
+        StunBomb();
     }
 
     public void AbilityPassive()
@@ -108,15 +108,10 @@ public class OgreAbilitySet : IAbilitySet
                             );
     }
 
-    private void Stun()
+    private void StunBomb()
     {
-        Collider[] hits = Physics.OverlapSphere(PlayerController.player.transform.position,stunRange);
-        foreach(var hit in hits)
-        {
-            if(hit.tag == "Enemy")
-            {
-                hit.GetComponent<Character>().ApplyStun(stunDuration);
-            }
-        }
+        GameObject bomb = GameObject.Instantiate(PlayerController.Instance.stunBombPrefab);
+        bomb.SetActive(true);
+        bomb.GetComponent<StunBomb>().Throw(stunRange, stunDuration);
     }
 }
