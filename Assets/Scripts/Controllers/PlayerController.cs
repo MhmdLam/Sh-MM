@@ -24,8 +24,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Canvas playerIndicator;
     [SerializeField] private GameObject ghost;
     public AttackCaller attackCaller;
-    public GameObject splashPrefab;
-    public GameObject stunBombPrefab;
+    // public GameObject splashPrefab;
+    // public GameObject stunBombPrefab;
 
 
     // ****BodyChange****

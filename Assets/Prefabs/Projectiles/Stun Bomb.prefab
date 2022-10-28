@@ -127,3 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b4b1bfd8117a540ac1566169a5a63a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolingID: 7
+  throwDirection: {x: 0, y: 1, z: 0}
+  throwForce: 1
+  explosionDelay: 1

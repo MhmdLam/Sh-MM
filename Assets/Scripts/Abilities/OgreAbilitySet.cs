@@ -86,12 +86,15 @@ public class OgreAbilitySet : IAbilitySet
 
     private void SplashDamage()
     {
-        GameObject Area = GameObject.Instantiate(PlayerController.Instance.splashPrefab, PlayerController.player.transform.position, PlayerController.player.transform.rotation);
+        GameObject Area = PoolsManager.Instance.Get(6, out bool temp);
+        Area.SetActive(true);
+        Area.transform.position = PlayerController.player.transform.position;
+        Area.transform.rotation = PlayerController.player.transform.rotation;
+        //GameObject Area = GameObject.Instantiate(PlayerController.Instance.splashPrefab, PlayerController.player.transform.position, PlayerController.player.transform.rotation);
         //Area.transform.position += transform.forward * SplashSpeed * Time.deltaTime;
         Rigidbody rigidbody = Area.GetComponent<Rigidbody>();
+        rigidbody.velocity = Vector3.zero;
         rigidbody.AddForce(PlayerController.player.transform.forward*splashSpeed,ForceMode.Impulse);
-        
-        GameObject.Destroy(Area, 10);
     }
 
     private void SpeedUp() // ********
@@ -110,7 +113,8 @@ public class OgreAbilitySet : IAbilitySet
 
     private void StunBomb()
     {
-        GameObject bomb = GameObject.Instantiate(PlayerController.Instance.stunBombPrefab);
+        GameObject bomb = PoolsManager.Instance.Get(7);
+        // GameObject.Instantiate(PlayerController.Instance.stunBombPrefab);
         bomb.SetActive(true);
         bomb.GetComponent<StunBomb>().Throw(stunRange, stunDuration);
     }

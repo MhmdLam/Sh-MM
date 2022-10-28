@@ -111,6 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d513291ee367ecb4a89adf5f5302143a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolingID: 6
   damageAmount: 2
 --- !u!54 &5995817391673830210
 Rigidbody:
