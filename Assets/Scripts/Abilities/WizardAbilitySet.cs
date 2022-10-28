@@ -48,6 +48,7 @@ public class WizardAbilitySet : IAbilitySet
     public void Ability1() // Rain Of Fire
     {
         PlayerController.player.animator.SetTrigger("PlayerAbility1");
+        SoundsManager.Instance.PlaySound("Meteor");
 
         CodeMonkey.Utils.FunctionTimer.Create(
             () =>
@@ -67,6 +68,7 @@ public class WizardAbilitySet : IAbilitySet
     public void Ability2() // Area Freeze
     {
         PlayerController.player.animator.SetTrigger("PlayerAbility2");
+        SoundsManager.Instance.PlaySound("Meteor");
 
         CodeMonkey.Utils.FunctionTimer.Create(
             () =>

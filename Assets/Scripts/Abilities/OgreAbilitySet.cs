@@ -41,6 +41,7 @@ public class OgreAbilitySet : IAbilitySet
         CodeMonkey.Utils.FunctionTimer.Create(
         () => 
         {
+            SoundsManager.Instance.PlaySound("Swing");
             Collider[] hits = Physics.OverlapBox(
                                                 PlayerController.player.transform.position+PlayerController.player.transform.forward*attackDisFromPlayer,
                                                 attackHalfSize,
