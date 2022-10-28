@@ -8,12 +8,16 @@ public class SoundsManager : MonoBehaviour
 
     [SerializeField] private List<SoundsManagerItem> soundsList;
     private Dictionary<string, List<AudioClip>> soundsDict = new Dictionary<string, List<AudioClip>>();
-    private AudioSource audioSource;
+    private AudioSource[] audioSources;
+    private int sourcesI = 0;
+
+    [SerializeField] private List<SpatialAudioSource> spatialSources;
+    private int spatialI = 0;
 
     void Awake()
     {
         Instance = this;
-        audioSource = GetComponent<AudioSource>();
+        audioSources = GetComponents<AudioSource>();
 
         // load the list into the dictionary
         foreach (var item in soundsList)
@@ -25,8 +29,22 @@ public class SoundsManager : MonoBehaviour
     // plays the wanted audio as a none spatial audio
     public void PlaySound(string key)
     {
-        audioSource.clip = GetAudio(key);
-        audioSource.Play();
+        audioSources[sourcesI].clip = GetAudio(key);
+        audioSources[sourcesI].Play();
+
+        sourcesI++;
+        if (sourcesI>=audioSources.Length) sourcesI = 0;
+    }
+
+    // plays the wanted audio as a spatial audio at the given position
+    public void PlaySoundSpatial(string key, Vector3 pos)
+    {
+        spatialSources[spatialI].transform.position = pos;
+        spatialSources[spatialI].audioSource.clip = GetAudio(key);
+        spatialSources[spatialI].audioSource.Play();
+
+        spatialI++;
+        if (spatialI>=spatialSources.Count) spatialI = 0;
     }
 
     // returns an audio clip whith the given key (chooses one at random if more than one is available)

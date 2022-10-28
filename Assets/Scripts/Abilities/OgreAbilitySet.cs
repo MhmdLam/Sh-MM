@@ -36,12 +36,10 @@ public class OgreAbilitySet : IAbilitySet
     public void Attack()
     {
         Debug.Log("Ogre attack!");
-        PlayerController.player.animator.SetTrigger("PlayerAttack");
 
         CodeMonkey.Utils.FunctionTimer.Create(
         () => 
         {
-            SoundsManager.Instance.PlaySound("Swing");
             Collider[] hits = Physics.OverlapBox(
                                                 PlayerController.player.transform.position+PlayerController.player.transform.forward*attackDisFromPlayer,
                                                 attackHalfSize,
@@ -61,6 +59,11 @@ public class OgreAbilitySet : IAbilitySet
             if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.Instance.passiveChance)
             {
                 PlayerController.Instance.Passive();
+                SoundsManager.Instance.PlaySound("Big Swing");
+            }
+            else
+            {
+                SoundsManager.Instance.PlaySound("Swing");
             }
         },
         0.8f);
@@ -70,6 +73,7 @@ public class OgreAbilitySet : IAbilitySet
     public void Ability1()
     {
         Debug.Log("Ogre Speed-up!");
+        SoundsManager.Instance.PlaySound("Speed Up");
         SpeedUp();
     }
 

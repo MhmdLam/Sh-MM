@@ -7,11 +7,18 @@ public class Meteor : MonoBehaviour, IPoolable
     [SerializeField] private int poolingID;
     public int PoolingID{get; set;}
     public GameObject ThisGameObject{get{return gameObject;}}
+
+    private AudioSource audioSource;
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float damage = 3f;
     [SerializeField] private float explosionRange = 2.5f;
     [SerializeField] private float activeTime = 10f;
     private float time = 0f;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void OnEnable()
     {
@@ -32,6 +39,8 @@ public class Meteor : MonoBehaviour, IPoolable
 
     private void OnTriggerEnter(Collider coll)
     {
+        SoundsManager.Instance.PlaySoundSpatial("Meteor Impact", transform.position);
+        
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRange);
         foreach(var hit in hits){
             if(hit.tag == "Enemy")

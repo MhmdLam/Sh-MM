@@ -9,6 +9,7 @@ public class StunBomb : MonoBehaviour, IPoolable
     public GameObject ThisGameObject {get {return gameObject;}}
 
     private Rigidbody rb;
+    private AudioSource audioSource;
     [SerializeField] private Vector3 throwDirection = Vector3.up;
     [SerializeField] private float throwForce = 1f;
     [SerializeField] private float explosionDelay = 1f;
@@ -17,6 +18,7 @@ public class StunBomb : MonoBehaviour, IPoolable
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
     }
     // void Start()
     // {
@@ -44,6 +46,8 @@ public class StunBomb : MonoBehaviour, IPoolable
     // called when the bomb explodes
     private void Explode(float range, float stunDuration)
     {
+        SoundsManager.Instance.PlaySoundSpatial("Stun Bomb", transform.position);
+
         Collider[] hits = Physics.OverlapSphere(transform.position,range);
         foreach(var hit in hits)
         {

@@ -171,6 +171,7 @@ public class PlayerController : MonoBehaviour
         ghost.GetComponent<Ghost>().StartAnimation(player.transform.position, character.transform.position);
         SimpleCameraFollow.Instance.smoothMovement = true;
         Time.timeScale = bodyChangeTimeScale;
+        SoundsManager.Instance.PlaySound("Body Change");
         FunctionTimer.Create(
                             () => {
                                 ghost.SetActive(false);

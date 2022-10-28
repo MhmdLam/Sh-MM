@@ -40,6 +40,11 @@ public class WizardAbilitySet : IAbilitySet
                 if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.Instance.passiveChance)
                 {
                     PlayerController.Instance.Passive();
+                    SoundsManager.Instance.PlaySound("Big Fireball");
+                }
+                else
+                {
+                    SoundsManager.Instance.PlaySound("Fireball");
                 }
             },
             0.9f
@@ -48,7 +53,7 @@ public class WizardAbilitySet : IAbilitySet
     public void Ability1() // Rain Of Fire
     {
         PlayerController.player.animator.SetTrigger("PlayerAbility1");
-        SoundsManager.Instance.PlaySound("Meteor");
+        SoundsManager.Instance.PlaySound("Spawn Meteor");
 
         CodeMonkey.Utils.FunctionTimer.Create(
             () =>
@@ -68,7 +73,7 @@ public class WizardAbilitySet : IAbilitySet
     public void Ability2() // Area Freeze
     {
         PlayerController.player.animator.SetTrigger("PlayerAbility2");
-        SoundsManager.Instance.PlaySound("Meteor");
+        SoundsManager.Instance.PlaySound("Freeze");
 
         CodeMonkey.Utils.FunctionTimer.Create(
             () =>
