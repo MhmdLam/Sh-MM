@@ -59,7 +59,9 @@ public class GolemAbilitySet : IAbilitySet
     public void Attack()
     {
         Debug.Log("Golem Attack!");
-        AreaAttack(attackDamage, attackRadius);
+        PlayerController.player.animator.SetTrigger("PlayerAttack");
+
+        CodeMonkey.Utils.FunctionTimer.Create( () => { AreaAttack(attackDamage, attackRadius);}, 1f);
 
         if (UnityEngine.Random.Range(0f, 1f)<=PlayerController.Instance.passiveChance)
         {
@@ -68,12 +70,32 @@ public class GolemAbilitySet : IAbilitySet
     }
     public void Ability1()
     {
-        AreaAttack(ability1Damage, ability1Radius);
+        PlayerController.player.animator.SetTrigger("PalyerAbility1");
+
+        CodeMonkey.Utils.FunctionTimer.Create
+        (
+            () => {
+                AreaAttack(ability1Damage, ability1Radius);
+                },
+            1.8f
+        );
     }
     public void Ability2()
     {
         Debug.Log("Golem strength stealer!");
-        ability2Counter = AreaAttack(ability2Damage, ability2Radius, false);
+        PlayerController.player.isAttacking = true;
+        PlayerController.Instance.isInvincible = true;
+        PlayerController.player.animator.SetTrigger("PalyerAbility2");
+
+        CodeMonkey.Utils.FunctionTimer.Create
+        (
+            () => {
+                ability2Counter = AreaAttack(ability2Damage, ability2Radius, false);
+                PlayerController.player.isAttacking = false;
+                PlayerController.Instance.isInvincible = false;
+                },
+            3f
+        );
     }
 
     public void AbilityPassive() 
