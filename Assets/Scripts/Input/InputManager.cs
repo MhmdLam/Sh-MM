@@ -10,7 +10,7 @@ public abstract class InputManager : MonoBehaviour
     [HideInInspector] public Vector2 inputVector = new Vector2();
     [HideInInspector] public Camera mainCamera;
     [SerializeField] protected FixedJoystick joystick;
-    protected bool bodyChangeActive = false;
+    public bool bodyChangeActive = false;
     public RectTransform[] areasToIgnore;
 
     [SerializeField] protected UnityEvent<Character> OnCharacterRayCast;
@@ -83,7 +83,7 @@ public abstract class InputManager : MonoBehaviour
             OnBodyChangeStarted.Invoke();
         bodyChangeActive = true;
     }
-
+    
     // called when trying to cancel BodyChange
     public void CancelBodyChange()
     {

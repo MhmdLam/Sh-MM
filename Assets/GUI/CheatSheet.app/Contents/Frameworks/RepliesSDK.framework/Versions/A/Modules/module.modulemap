@@ -1,0 +1,6 @@
+framework module RepliesSDK {
+  umbrella header "RepliesSDK.h"
+
+  export *
+  module * { export * }
+}
